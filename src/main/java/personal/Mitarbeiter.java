@@ -39,8 +39,6 @@ public class Mitarbeiter {
         return limit_allgemein;
     }
 
-
-
     public String gibInfo(){
 
         String chef_info = this.chef == null ? ""
