@@ -10,7 +10,7 @@ public class Konstante extends Ausdruck{
 
     @Override
     public int gibWert(Variablenbelegung var) {
-        return 0;
+        return value;
     }
 
     @Override

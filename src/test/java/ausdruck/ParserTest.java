@@ -3,6 +3,8 @@ package ausdruck;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.text.ParseException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class ParserTest {
@@ -25,7 +27,7 @@ class ParserTest {
     }
 
     @Test
-    void testparse(){
+    void testparse() throws ParseException {
         assertEquals(sollAusdruck, parser.parse("(a + 1) * 5"));
     }
 
