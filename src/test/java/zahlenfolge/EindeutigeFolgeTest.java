@@ -22,6 +22,7 @@ public class EindeutigeFolgeTest {
     /**
      * Testet Methoden hatNaechstes und gibNaechstes.
      */
+
     @Test
     void testZugriffAufFolge2() {
 
@@ -29,7 +30,7 @@ public class EindeutigeFolgeTest {
                 new EindeutigeFolge(
                     new EndlicheFolge(new int[]{0, 0, 0, 1, 2, 3, 3, 4, 4})),
                 new Integer[]{0, 1, 2, 3, 4},
-                false);
+                true);
     }
     
     /**
