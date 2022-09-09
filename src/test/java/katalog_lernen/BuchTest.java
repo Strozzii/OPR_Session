@@ -3,21 +3,25 @@ package katalog_lernen;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.assertEquals;
 
 class BuchTest {
 
-    private Buch b1;
+    private Buch buch;
 
     @BeforeEach
     void setUp(){
-        b1 = new Buch("Hobbit", "Tolkien", 25, 1937);
+        buch = new Buch("Asterix der Gallier", "Uderzo", 9.80f, 1965);
     }
 
     @Test
     void testGibText(){
-        String soll = "Hobbit; Tolkien; 1937; €25";
-        assertEquals(soll, b1.gibText());
+        assertEquals("Asterix der Gallier; Uderzo; 1965; €9.8", buch.gibText());
+    }
+
+    @Test
+    void testGibSuchtext(){
+        assertEquals("Asterix der Gallier Uderzo", buch.gibSuchtext());
     }
 
 }

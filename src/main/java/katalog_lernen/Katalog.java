@@ -5,32 +5,64 @@ public class Katalog {
     private final int SCHRITTWEITE = 3;
     private final int INITIALGROESSE = 2;
 
-    private int index;
+    private int anzahl;
 
-    private Buch[] buecher;
+    private Katalogartikel[] katalogartikel;
 
     public Katalog(){
-        buecher = new Buch[INITIALGROESSE];
-        index = 0;
+        katalogartikel = new Katalogartikel[INITIALGROESSE];
+        anzahl = 0;
     }
 
-    public void fuegeHinzu(Buch b){
-        if(index >= buecher.length){
+    public void fuegeHinzu(Katalogartikel b){
+        if(anzahl >= katalogartikel.length){
             this.vergroeßere();
         }
-        buecher[index] = b;
+        katalogartikel[anzahl] = b;
+        anzahl++;
     }
 
     public void vergroeßere() {
-        Buch[] neu = new Buch[buecher.length + SCHRITTWEITE];
-        buecher = neu;
+        Katalogartikel[] liste = new Katalogartikel[katalogartikel.length + SCHRITTWEITE];
+
+        for(int i = 0; i < katalogartikel.length; i++){
+            liste[i] = katalogartikel[i];
+        }
+        katalogartikel = liste;
     }
 
-    public void gibBuecher throws NullPointerException(){
-        try(NullPointerException n){
+    public String gibListe(){
+        String text = "";
 
+        for(int i = 0; i < anzahl; i++){
+            text = text + katalogartikel[i].gibText() + "\n";
         }
 
+        return text;
+    }
+
+    public int gibAnzahlTreffer(String such){
+        int treffer = 0;
+
+        for(int i = 0; i < anzahl; i++){
+            if(katalogartikel[i].passtZu(such)){
+                treffer++;
+            }
+        }
+        return treffer;
+    }
+
+    public Katalogartikel[] gibTreffer(String such){
+        Katalogartikel[] treffer = new Katalogartikel[this.gibAnzahlTreffer(such)];
+        int index = 0;
+
+        for(int i = 0; i < anzahl; i++){
+            if(katalogartikel[i].passtZu(such)){
+                treffer[index] = katalogartikel[i];
+                index++;
+            }
+        }
+        return treffer;
     }
 
 }
