@@ -28,14 +28,14 @@ class KatalogTest {
 
     @Test
     void testGibTreffer1(){
-        ArrayList<Katalogartikel> soll = new ArrayList<>();
+        ArrayList<Verkaufbares> soll = new ArrayList<>();
         soll.add(artikel_1);
         assertEquals(soll, katalog.gibTreffer1("a1"));
     }
 
     @Test
     void testGibTreffer2(){
-        ArrayList<Katalogartikel> soll = new ArrayList<>();
+        ArrayList<Verkaufbares> soll = new ArrayList<>();
         soll.add(artikel_1);
         soll.add(artikel_2);
         assertEquals(soll, katalog.gibTreffer2("a"));
@@ -43,7 +43,7 @@ class KatalogTest {
 
     @Test
     void testGibTreffer0(){
-        ArrayList<Katalogartikel> soll = new ArrayList<>();
+        ArrayList<Verkaufbares> soll = new ArrayList<>();
         assertEquals(soll, katalog.gibTreffer3("b"));
     }
 

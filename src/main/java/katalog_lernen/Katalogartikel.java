@@ -1,25 +1,29 @@
 package katalog_lernen;
 
-import java.util.StringTokenizer;
+import java.util.*;
 
-public abstract class Katalogartikel {
+public abstract class Katalogartikel implements Verkaufbares {
 
     private final float preis;
-    private static final String[] AUSSCHLUSSWOERTER = new String[]{"der", "die", "das", "und", "oder"};
+    private static final Set<String> AUSSCHLUSSWOERTER = new HashSet<>(Arrays.asList("der", "die", "das", "und", "oder"));
 
     public Katalogartikel(float preis){
         this.preis = preis;
     }
     public static boolean istAusschlusswort(String wort){
-        int i = 0;
-
-        while((i < AUSSCHLUSSWOERTER.length) && (!AUSSCHLUSSWOERTER[i].equalsIgnoreCase(wort))){
-            i++;
-        }
-
-        return (i < AUSSCHLUSSWOERTER.length);
+        return (AUSSCHLUSSWOERTER.contains(wort));
     }
 
+    public boolean passtZuStream(String such){
+        StringTokenizer st = new StringTokenizer(this.gibSuchtext());
+
+        return Collections.list(st)
+                .stream()
+                .anyMatch(t -> ((String) t).startsWith(such) && !istAusschlusswort((String) t));
+
+    }
+
+    @Override
     public boolean passtZu(String such){
         StringTokenizer st = new StringTokenizer(this.gibSuchtext());
         boolean gefunden = false;
@@ -33,11 +37,12 @@ public abstract class Katalogartikel {
         return gefunden;
     }
 
-
-    protected float getPreis(){
+    @Override
+    public float getPreis(){
         return preis;
     }
 
+    @Override
     public abstract String gibText();
 
     protected abstract String gibSuchtext();

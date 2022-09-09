@@ -20,7 +20,7 @@ public class Auto extends Motorfahrzeug implements Verkaufbares {
     }
 
     @Override
-    public float gibPreis() {
+    public float getPreis() {
         return preis;
     }
 }

@@ -15,6 +15,10 @@ public class Buch extends Katalogartikel implements Comparable<Buch>{
         this.erscheinungsjahr = erscheinungsjahr;
     }
 
+    public String gibAutor(){
+        return autor;
+    }
+
     @Override
     public String gibText(){
         return (titel + "; " + autor + "; " + erscheinungsjahr + "; €" + getPreis());
@@ -48,6 +52,14 @@ public class Buch extends Katalogartikel implements Comparable<Buch>{
 
     @Override
     public int compareTo(Buch o) {
-        return 0;
+        int vergleichswert = autor.compareTo(o.autor);
+        if(vergleichswert == 0){
+            vergleichswert = titel.compareTo(o.titel);
+            if(vergleichswert == 0){
+                vergleichswert = this.erscheinungsjahr - o.erscheinungsjahr;
+            }
+        }
+        return vergleichswert;
+
     }
 }

@@ -2,36 +2,50 @@ package katalog_lernen;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class Katalog {
 
-    private final ArrayList<Katalogartikel> katalogartikel;
+    private final List<Verkaufbares> katalogartikel;
 
     public Katalog(){
         katalogartikel = new ArrayList<>();
     }
 
-    public void fuegeHinzu(Katalogartikel b){
+    public void fuegeHinzu(Verkaufbares b){
         katalogartikel.add(b);
     }
 
+    public String gibStreamListe(){
+        return katalogartikel.stream()
+                .map(artikel -> artikel.gibText())
+                .reduce("", (gesamttext, text) -> gesamttext + text + "\n");
+    }
 
     public String gibListe(){
         String darstellung = "";
 
-        for(Katalogartikel artikel : katalogartikel){
+        for(Verkaufbares artikel : katalogartikel){
             darstellung = darstellung + artikel.gibText() + "\n";
         }
 
         return darstellung;
     }
 
+    // Streams
+    public List<Verkaufbares> gibTreffer(String suchbegriff){
+       return katalogartikel.stream()
+               .filter(artikel -> artikel.passtZu(suchbegriff))
+               .collect(Collectors.toList());
+    }
+
     // Iteration per Index
-    public ArrayList<Katalogartikel> gibTreffer1(String such){
-        ArrayList<Katalogartikel> trefferliste = new ArrayList<>();
+    public List<Verkaufbares> gibTreffer1(String such){
+        ArrayList<Verkaufbares> trefferliste = new ArrayList<>();
 
         for(int i = 0; i < katalogartikel.size(); i++){
-            Katalogartikel artikel = katalogartikel.get(i);
+            Verkaufbares artikel = katalogartikel.get(i);
             if(artikel.passtZu(such)){
                 trefferliste.add(artikel);
             }
@@ -41,13 +55,13 @@ public class Katalog {
     }
 
     //Iteration per Iterator
-    public ArrayList<Katalogartikel> gibTreffer2(String such){
-        ArrayList<Katalogartikel> trefferliste = new ArrayList<>();
+    public List<Verkaufbares> gibTreffer2(String such){
+        ArrayList<Verkaufbares> trefferliste = new ArrayList<>();
 
-        Iterator<Katalogartikel> iter = katalogartikel.iterator();
+        Iterator<Verkaufbares> iter = katalogartikel.iterator();
 
         while(iter.hasNext()){
-            Katalogartikel artikel = iter.next();
+            Verkaufbares artikel = iter.next();
             if(artikel.passtZu(such)){
                 trefferliste.add(artikel);
             }
@@ -57,10 +71,10 @@ public class Katalog {
     }
 
     //Iteration mit erweiterter for-Schleife
-    public ArrayList<Katalogartikel> gibTreffer3(String such){
-        ArrayList<Katalogartikel> trefferliste = new ArrayList<>();
+    public List<Verkaufbares> gibTreffer3(String such){
+        ArrayList<Verkaufbares> trefferliste = new ArrayList<>();
 
-        for(Katalogartikel artikel : katalogartikel){
+        for(Verkaufbares artikel : katalogartikel){
             if(artikel.passtZu(such)){
                 trefferliste.add(artikel);
             }

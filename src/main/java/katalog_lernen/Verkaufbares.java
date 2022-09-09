@@ -6,5 +6,5 @@ public interface Verkaufbares {
 
     String gibText();
 
-    float gibPreis();
+    float getPreis();
 }
