@@ -1,68 +1,73 @@
 package katalog_lernen;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 public class Katalog {
 
-    private final int SCHRITTWEITE = 3;
-    private final int INITIALGROESSE = 2;
-
-    private int anzahl;
-
-    private Katalogartikel[] katalogartikel;
+    private final ArrayList<Katalogartikel> katalogartikel;
 
     public Katalog(){
-        katalogartikel = new Katalogartikel[INITIALGROESSE];
-        anzahl = 0;
+        katalogartikel = new ArrayList<>();
     }
 
     public void fuegeHinzu(Katalogartikel b){
-        if(anzahl >= katalogartikel.length){
-            this.vergroeßere();
-        }
-        katalogartikel[anzahl] = b;
-        anzahl++;
+        katalogartikel.add(b);
     }
 
-    public void vergroeßere() {
-        Katalogartikel[] liste = new Katalogartikel[katalogartikel.length + SCHRITTWEITE];
-
-        for(int i = 0; i < katalogartikel.length; i++){
-            liste[i] = katalogartikel[i];
-        }
-        katalogartikel = liste;
-    }
 
     public String gibListe(){
-        String text = "";
+        String darstellung = "";
 
-        for(int i = 0; i < anzahl; i++){
-            text = text + katalogartikel[i].gibText() + "\n";
+        for(Katalogartikel artikel : katalogartikel){
+            darstellung = darstellung + artikel.gibText() + "\n";
         }
 
-        return text;
+        return darstellung;
     }
 
-    public int gibAnzahlTreffer(String such){
-        int treffer = 0;
+    // Iteration per Index
+    public ArrayList<Katalogartikel> gibTreffer1(String such){
+        ArrayList<Katalogartikel> trefferliste = new ArrayList<>();
 
-        for(int i = 0; i < anzahl; i++){
-            if(katalogartikel[i].passtZu(such)){
-                treffer++;
+        for(int i = 0; i < katalogartikel.size(); i++){
+            Katalogartikel artikel = katalogartikel.get(i);
+            if(artikel.passtZu(such)){
+                trefferliste.add(artikel);
             }
         }
-        return treffer;
+
+        return trefferliste;
     }
 
-    public Katalogartikel[] gibTreffer(String such){
-        Katalogartikel[] treffer = new Katalogartikel[this.gibAnzahlTreffer(such)];
-        int index = 0;
+    //Iteration per Iterator
+    public ArrayList<Katalogartikel> gibTreffer2(String such){
+        ArrayList<Katalogartikel> trefferliste = new ArrayList<>();
 
-        for(int i = 0; i < anzahl; i++){
-            if(katalogartikel[i].passtZu(such)){
-                treffer[index] = katalogartikel[i];
-                index++;
+        Iterator<Katalogartikel> iter = katalogartikel.iterator();
+
+        while(iter.hasNext()){
+            Katalogartikel artikel = iter.next();
+            if(artikel.passtZu(such)){
+                trefferliste.add(artikel);
             }
         }
-        return treffer;
+
+        return trefferliste;
     }
+
+    //Iteration mit erweiterter for-Schleife
+    public ArrayList<Katalogartikel> gibTreffer3(String such){
+        ArrayList<Katalogartikel> trefferliste = new ArrayList<>();
+
+        for(Katalogartikel artikel : katalogartikel){
+            if(artikel.passtZu(such)){
+                trefferliste.add(artikel);
+            }
+        }
+
+        return trefferliste;
+    }
+
 
 }

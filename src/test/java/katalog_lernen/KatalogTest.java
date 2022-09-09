@@ -3,6 +3,9 @@ package katalog_lernen;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class KatalogTest {
@@ -25,17 +28,23 @@ class KatalogTest {
 
     @Test
     void testGibTreffer1(){
-        assertArrayEquals(new Katalogartikel[]{artikel_1}, katalog.gibTreffer("a1"));
+        ArrayList<Katalogartikel> soll = new ArrayList<>();
+        soll.add(artikel_1);
+        assertEquals(soll, katalog.gibTreffer1("a1"));
     }
 
     @Test
     void testGibTreffer2(){
-        assertArrayEquals(new Katalogartikel[]{artikel_1, artikel_2}, katalog.gibTreffer("a"));
+        ArrayList<Katalogartikel> soll = new ArrayList<>();
+        soll.add(artikel_1);
+        soll.add(artikel_2);
+        assertEquals(soll, katalog.gibTreffer2("a"));
     }
 
     @Test
     void testGibTreffer0(){
-        assertArrayEquals(new Katalogartikel[]{}, katalog.gibTreffer("b"));
+        ArrayList<Katalogartikel> soll = new ArrayList<>();
+        assertEquals(soll, katalog.gibTreffer3("b"));
     }
 
     @Test
