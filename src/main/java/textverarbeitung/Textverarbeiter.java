@@ -1,33 +1,38 @@
 package textverarbeitung;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.StringTokenizer;
 
 public class Textverarbeiter {
+    private Wortverarbeiter warbeiter;
+    private ArrayList<String> woerter = new ArrayList<>();
 
-    private Wortverarbeiter verarbeiter;
+    private List<List> zeilen = new ArrayList<>();
 
-    public Textverarbeiter(Wortverarbeiter verarbeiter){
-        this.verarbeiter = verarbeiter;
+    public Textverarbeiter(Wortverarbeiter warbeiter) {
+        this.warbeiter = warbeiter;
     }
 
-    public void verarbeite(String s){
+//    public void verarbeite2(String text) {
+//        ArrayList<String> woerter = new ArrayList<>();
+//
+//        StringTokenizer tokens = new StringTokenizer(text, ".,:;!?-() ");
+//
+//        while(tokens.hasMoreTokens()) {
+//            woerter.add(tokens.nextToken());
+//        }
+//
+//        this.woerter = woerter;
+//    }
 
-        String zeile;
-        StringTokenizer st = new StringTokenizer(s, "\n", true);
-        while(st.hasMoreTokens()){
-            zeile = st.nextToken();
-
-            if(zeile.equals("\n")){
-                verarbeiter.verarbeiteZeilenende();
-            } else {
-                StringTokenizer woerter = new StringTokenizer(zeile, " ,.;:!?()-");
-
-                while(woerter.hasMoreTokens()){
-                    verarbeiter.verarbeite(woerter.nextToken());
-                }
-            }
+    public void verarbeite(String text) {
+        StringTokenizer woerter = new StringTokenizer(text, ".,:;!?-() ");
+        while(woerter.hasMoreTokens()) {
+            String wort = woerter.nextToken();
+            warbeiter.verarbeite(wort);
         }
 
+//        warbeiter.verarbeite(text);
     }
-
 }

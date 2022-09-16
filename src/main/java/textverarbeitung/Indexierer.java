@@ -3,50 +3,71 @@ package textverarbeitung;
 import java.util.*;
 
 public class Indexierer implements Wortverarbeiter{
+    private Collection<String> ausschlusswoerter;
+    private List<String> woerter = new ArrayList<>();
+    private HashMap<String, List> indizes = new HashMap<>();
+    private int anzahlZeilen;
 
-    private int zeile;
-    private HashSet<String> ausschlusswoerter;
-    private HashMap<String, String> woerter;
-
-    public Indexierer(Collection<String> c){
-        zeile = 1;
-        ausschlusswoerter = new HashSet<>();
-        woerter = new HashMap<>();
+    public Indexierer(Collection<String> ausschlusswoerter) {
+        this.ausschlusswoerter = ausschlusswoerter;
+        this.anzahlZeilen = 1;
     }
 
-    public List<String> gibWoerter(){
-        ArrayList<String> output = new ArrayList<>();
-        Iterator<String> iter = woerter.keySet().iterator();
+    public List<String> gibWoerter() {
+        Collections.sort(woerter);
 
-        while(iter.hasNext()){
-            output.add(iter.next());
+        return woerter;
+    }
+
+    public String gibZeilenNummern(String wort) {
+        String zeilen = "";
+
+        if(indizes.containsKey(wort)) {
+            Iterator iter = indizes.get(wort).iterator();
+
+            while(iter.hasNext()) {
+                zeilen = zeilen + iter.next() + ", ";
+            }
+            zeilen = zeilen.substring(0, zeilen.length() - 2);
         }
-        Collections.sort(output);
-        return output;
+
+        return zeilen;
     }
 
-    public String gibZeilennummern(String s){
-        String output = "";
-
-        if(woerter.containsKey(s)){
-            output = woerter.get(s);
+    public void woerter(String wort) {
+        if(!ausschlusswoerter.contains(wort) && !woerter.contains(wort)) {
+            woerter.add(wort);
         }
-        return output;
     }
 
-    @Override
-    public void verarbeite(String s) {
-        if(!ausschlusswoerter.contains(s)) {
-            if(woerter.containsKey(s)) {
-                woerter.put(s, woerter.get(s) + ", " + zeile);
-            } else {
-                woerter.put(s, "" + zeile);
+    public void index(String wort) {
+        if(!ausschlusswoerter.contains(wort)) {
+            if(indizes.containsKey(wort)) {
+                List<Integer> nummern = indizes.get(wort);
+                nummern.add(anzahlZeilen);
+                indizes.put(wort, nummern);
+            }
+            else {
+                List<Integer> nummern = new ArrayList();
+                nummern.add(anzahlZeilen);
+                indizes.put(wort, nummern);
             }
         }
     }
 
     @Override
+    public void verarbeite(String wort) {
+        if(wort.equals("\n")) {
+            verarbeiteZeilenende();
+        }
+        else {
+            woerter(wort);
+            index(wort);
+        }
+    }
+
+    @Override
     public void verarbeiteZeilenende() {
-        zeile++;
+        this.anzahlZeilen = this.anzahlZeilen + 1;
     }
 }
